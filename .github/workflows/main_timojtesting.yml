@@ -39,6 +39,9 @@ jobs:
       - name: Database migration
         run: dotnet ef migrations bundle --runtime linux-x64 -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
 
+      - name: Database update
+        run: dotnet ef database update
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
@@ -66,7 +69,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
