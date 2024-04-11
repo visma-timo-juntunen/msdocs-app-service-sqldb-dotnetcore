@@ -80,7 +80,7 @@ jobs:
       - name: Run migrations
         shell: bash
         run: |
-          chmod a+x ./migrate
+          chmod a+x ./migrate --connection ${{ secrets.AZURE_CONNECTION_STRING }}
           ./migrate    
 
   
