@@ -40,7 +40,7 @@ jobs:
         run: dotnet ef migrations bundle --runtime linux-x64 -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
 
       - name: Database update
-        run: dotnet ef database update
+        run: dotnet ef database update -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -77,6 +77,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0C4276B38DD41FD9CCA7BB21639B095 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C4E71D4C4B5C4370B059DEF9DD40E8BA }}
 
+      - name: Run migrations
+        shell: bash
+        run: ./migrate    
+  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
